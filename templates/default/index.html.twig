@@ -19,8 +19,10 @@
 
         <ul>
             {% for user in users %}
+                {#//for loop have loop index variable wich stores the current index of each for loop but it starts from 1 #}
                 <li>
-                    {{ user.name }}
+                    {{user.name}} - you wan {{random_gift[loop.index0]}}
+                    {#set loop.index0 to start from 0 because array always starts from 0#}
                 </li>
             {% endfor %}
         </ul>
