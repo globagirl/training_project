@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\HttpFoundation\Cookie;
+
 class DefaultController extends AbstractController
 {
 //    public function __construct(GiftService $gifts)
@@ -22,7 +24,25 @@ class DefaultController extends AbstractController
     {
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
+        //cookies------------------------------------
+        //set
+        /*
+        $cookie= new Cookie(
+            'my_cookie', // cookie name
+            'cookie value', // cookie value
+            time()+(2*365*24*60*60) //expires after 2 years
+        );
+        $res= new Response();
+        $res->headers->setCookie($cookie); //attach cookie to the header sent to the browser
+        $res->send();
+        */
+        //delete
+        $res = new Response();
+        $res->headers->clearCookie('my_cookie');
+        $res->send();
+        //cookies------------------------------------
 
+        //splash----------------------------------
         $this->addFlash(
             'notice',
             'your changes are saved !'
@@ -32,6 +52,7 @@ class DefaultController extends AbstractController
             'warning',
             'your changes are saved !'
         );
+        //end splash----------------------------------
 
         //render method
         return $this->render('default/index.html.twig', [
@@ -42,7 +63,7 @@ class DefaultController extends AbstractController
     }
 
 
-    //advanced routes
+    //advanced routes----------------------------------------------
     /**
      * @Route("/blog/{page?}", name="blog_list", requirements={"page"="\d+"})
      */
