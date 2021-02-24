@@ -12,12 +12,9 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class DefaultController extends AbstractController
 {
-//    public function __construct(GiftService $gifts)
-//    {
-//        $gifts->gifts =['a','b','c','d'];
-//    }
 
     /**
      * @Route("/", name="default")
@@ -27,14 +24,44 @@ class DefaultController extends AbstractController
     {
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        //Session cookie---------------
-//        exit($request->cookies->get('PHPSESSID')); //number of our session
-        $session->set('name','session value');
-        $session->remove('name');
-        $session->clear();//clear the entire session data
-        if ($session->has('name')){
-            exit($session->get('name'));
+        if (!$users){
+            throw $this->createNotFoundException('the users does not exist');
         }
+        return $this->render('default/index.html.twig', [
+            'controller_name' => 'DefaultController',
+            'users' => $users,
+            'random_gift'=>$gifts->gifts,
+        ]);
+    }
+//    public function __construct(GiftService $gifts)
+//    {
+//        $gifts->gifts =['a','b','c','d'];
+//    }
+
+    /**
+     * @Route("/1", name="default")
+     */
+    public function index0(GiftService $gifts, Request $request,
+                          SessionInterface $session)//autowire
+    {
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        //get post session----------------
+       // exit($request->query->get('page','default'));//TODO didn't work !!!!!!!!!!
+        //exit($request->server->get('HTTP_HOST')); //get server data
+        //$request->isXmlHttpRequest(); // check if the request is ajax or not
+        //$request->request->get('page');// remplace $_POST of an input named page
+        //$request->files->get('foo');// remplace $_FILE of an input named foo
+
+        //--------------------------
+
+        //Session cookie---------------
+        //exit($request->cookies->get('PHPSESSID')); //number of our session
+//        $session->set('name','session value');
+//        $session->remove('name');
+//        $session->clear();//clear the entire session data
+//        if ($session->has('name')){
+//            exit($session->get('name'));
+//        }
         //cookies------------------------------------
         //set
         /*
@@ -48,9 +75,9 @@ class DefaultController extends AbstractController
         $res->send();
         */
         //delete
-        $res = new Response();
-        $res->headers->clearCookie('my_cookie');
-        $res->send();
+//        $res = new Response();
+//        $res->headers->clearCookie('my_cookie');
+//        $res->send();
         //cookies------------------------------------
 
         //splash----------------------------------
