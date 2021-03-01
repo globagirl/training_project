@@ -32,6 +32,6 @@ services:
     # please note that last definitions always *replace* previous ones
 
 #    binding a service
-    App\Controller\DefaultController:
-        bind:
-          $logger: '@monolog.logger.doctrine'
+#    App\Controller\DefaultController:
+#        bind:
+#          $logger: '@monolog.logger.doctrine'

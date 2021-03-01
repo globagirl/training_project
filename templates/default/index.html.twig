@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello DefaultController!{% endblock %}
-
+ {% set string = "some string \n from \n database" %}
 {% block body %}
+
     <style>
         .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
         .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
@@ -16,52 +17,18 @@
             <li>Your controller at <code><a href="{{ 'C:/Program Files/Ampps/www/my_project/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>
             <li>Your template at <code><a href="{{ 'C:/Program Files/Ampps/www/my_project/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>
         </ul>
-        {% set users= [{name:'john'},{name:'khawla'},{name:'touta'}] %}
 
-        <ul>
-            {#{% for user in users if user.name == 'touta' %} //deprecated since twig 2.10#}
-                {#//for loop have loop index variable wich stores the current index of each for loop but it starts from 1 #}
-            {% for user in users|filter(user => user.name == 'touta') %}
-            <li>
-                    {{user.name}} - you wan {{random_gift[loop.index0]}}
-                    {#//set loop.index0 to start from 0 because array always starts from 0#}
-                </li>
-                {% else %}
-                No Users where found !
-            {% endfor %}
-            {{ include ('includes/subview.html.twig',{'users': users}) }}
-        </ul>
+        {{ path('home') }} <br>
+        {{ url('home') }}
+        {{ asset('images/logo.png') }}
+        {{ absolute_url(asset('images/logo.png')) }}
     </div>
-
-    {% for message in app.flashes('notice') %}
-        <div class="flash-notice">
-            {{ message }}
-        </div>
-    {% endfor %}
-
-    {#advanced#}
-    {% for label,messages in app.flashes %}
-        {% for message in messages %}
-            <div class="flash-notice">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
-
-    {% for i in 1..10 %}
-        <div class="{{ cycle(['even','odd'], i)}}">
-            {#even means paire si paire class = even else class = odd#}
-            {{ i }}
-        </div>
-    {% endfor %}
+    <p>The google tracking code is: {{ ga_code }}</p>
 {% endblock %}
-
 {% block javascripts %}
-    {{ parent() }}
-<script>
-    alert(2);
-</script>
+    <script>
+        var route="{{ string|escape('js') }}";
+        alert(route);
+    </script>
 {% endblock %}
-
 
